@@ -26,49 +26,53 @@ weather_slice_1 = weather_data["hourly"][:12]
 thunder_storm = False
 rain = False
 snow = False
+# support for multiple phone numbers
+numbers = ["#", "#", "#"]
 
 for hours in weather_slice_1:
     condition_code = hours["weather"][0]["id"]
     if int(condition_code) < 300:
         thunder_storm = True
     elif int(condition_code) > 299 and int(condition_code) < 600:
-        snow = True
-    elif int(condition_code) > 599 and int(condition_code) < 700:
         rain = True
+    elif int(condition_code) > 599 and int(condition_code) < 700:
+        snow = True
 
 if thunder_storm:
-    proxy_client = TwilioHttpClient()
-    proxy_client.session.proxies = {'https': os.environ['https_proxy']}
-    client = Client(account_sid, auth_token, http_client=proxy_client)
-    message = client.messages \
-        .create(
-            body = "It's going to thunderstorm today ⛈",
-            # removed phone numbers
-            from_ = " #", 
-            to = " #",
-        )
-    print(message.status)
+    for number in numbers:
+        proxy_client = TwilioHttpClient()
+        proxy_client.session.proxies = {'https': os.environ['https_proxy']}
+        client = Client(account_sid, auth_token, http_client=proxy_client)
+        message = client.messages \
+            .create(
+                body = "It's going to thunderstorm today ⛈",
+                from_ = "+18045526901",
+                to = number
+            )
+        print(message.status)
 
 if rain:
-    proxy_client = TwilioHttpClient()
-    proxy_client.session.proxies = {'https': os.environ['https_proxy']}
-    client = Client(account_sid, auth_token, http_client=proxy_client)
-    message = client.messages \
-        .create(
-            body = "It's going to rain today, bring an umbrella ☂️",
-            from_ = " #",
-            to = " #",
-        )
-    print(message.status)
+    for number in numbers:
+        proxy_client = TwilioHttpClient()
+        proxy_client.session.proxies = {'https': os.environ['https_proxy']}
+        client = Client(account_sid, auth_token, http_client=proxy_client)
+        message = client.messages \
+            .create(
+                body = "It's going to rain today, bring an umbrella ☂️",
+                from_ = "+18045526901",
+                to = number
+            )
+        print(message.status)
 
 if snow:
-    proxy_client = TwilioHttpClient()
-    proxy_client.session.proxies = {'https': os.environ['https_proxy']}
-    client = Client(account_sid, auth_token, http_client=proxy_client)
-    message = client.messages \
-        .create(
-            body = "It's going to snow today! 🌨️ ❄️",
-            from_ = " #",
-            to = " #",
-        )
-    print(message.status)
+    for number in numbers:
+        proxy_client = TwilioHttpClient()
+        proxy_client.session.proxies = {'https': os.environ['https_proxy']}
+        client = Client(account_sid, auth_token, http_client=proxy_client)
+        message = client.messages \
+            .create(
+                body = "It's going to snow today! 🌨️ ❄️",
+                from_ = "+18045526901",
+                to = number
+            )
+        print(message.status)
